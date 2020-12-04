@@ -1,0 +1,38 @@
+.button-gradient-primary {
+  background: linear-gradient(180deg, #7285c0 0%, #1e36c6 100%);
+}
+
+// For active links in the sidebar
+.active-link {
+  text-decoration: none;
+  transition: 0.2s linear ease;
+  .MuiButtonBase-root {
+    box-shadow: 3px 0px 0px #f7f7f7 inset;
+    background: rgba(159, 162, 180, 0.213);
+    transition: 0.2s linear ease;
+    .MuiTypography-root {
+      font-size: 0.9rem;
+    }
+    &:hover {
+      box-shadow: 3px 0px 0px #f7f7f7 inset;
+      background: rgba(159, 162, 180, 0.213) !important;
+    }
+  }
+}
+
+.no-active-link {
+  text-decoration: none;
+  transition: 0.2s linear ease;
+  .MuiButtonBase-root {
+    transition: 0.2s linear ease;
+    .MuiTypography-root {
+      font-size: 0.9rem;
+    }
+  }
+  &:hover {
+    .MuiButtonBase-root {
+      transition: 0.2s linear ease;
+      background: rgba(159, 162, 180, 0.213);
+    }
+  }
+}
