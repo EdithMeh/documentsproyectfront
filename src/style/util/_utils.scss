@@ -15,7 +15,17 @@
   text-transform: uppercase;
 }
 .u-text-capitalize {
-  text-transform: capitalize;  
+  text-transform: capitalize;
+}
+
+.border-error {
+  fieldset {
+    border-color: tomato;
+  }
 }
 
 
+// Display
+.u-display-block{
+  display: block!important;
+}

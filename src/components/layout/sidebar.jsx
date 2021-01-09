@@ -59,6 +59,9 @@ const useStyles = makeStyles((theme) => ({
   itemMenu: {
     textDecoration: "none",
   },
+  marginTop: {
+    marginTop: "1.4em"
+  }
 }));
 const NavLink = (props) => (
   <Link
@@ -102,7 +105,7 @@ const SideBar = ({ title }) => {
               {dataUSER.username}
             </Typography>
             <Avatar className="u-margin-left-1 u-text-uppercase">
-              {dataUSER.username.charAt(0)}
+              {dataUSER.username ? dataUSER.username.charAt(0) : ""}
             </Avatar>
           </div>
         </Toolbar>
@@ -116,11 +119,11 @@ const SideBar = ({ title }) => {
         anchor="left"
       >
         <Toolbar>
-          <Typography variant="h5" noWrap>
-            <Link to="/home">Innovative Apps</Link>
+          <Typography variant="h6" noWrap>
+            <Link to="/home" className="logo-text">Innovative Apps</Link>
           </Typography>
         </Toolbar>
-        <List>
+        <List className={classes.marginTop}>
           {itemsMenu.map((item, index) => (
             <NavLink key={index} to={item.route}>
               <ListItem button>

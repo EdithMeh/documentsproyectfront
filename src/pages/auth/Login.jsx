@@ -14,7 +14,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { navigate } from "@reach/router";
 // Images
 import loginBanner from "../../assets/image/login-banner.png";
-import { URL } from "../../config/settings";
+import { URL, HEADER } from "../../config/settings";
 import { AuthContext } from "../../context/useAuth";
 import { LoadContext } from "../../context/useLoading";
 import axios from "axios";
@@ -39,10 +39,12 @@ const useStyles = makeStyles((theme) => ({
   image: {
     width: "100%",
   },
+  fieldWidth: {
+    width: "100%",
+  },
 }));
 
 const Login = (props) => {
-  console.log(props, "props");
   const loadingDATA = useContext(LoadContext);
   const dataUSER = useContext(AuthContext);
   const [values, setValues] = useState({
@@ -65,6 +67,7 @@ const Login = (props) => {
   const [showIcon, setShowIcon] = useState(false);
   // Handless
   useEffect(() => {
+    console.log(HEADER.headers.Authorization, "HEADER");
     const CURRENT_USER = localStorage.getItem("token");
     if (CURRENT_USER) {
       navigate("/home");
@@ -72,7 +75,8 @@ const Login = (props) => {
       navigate("/");
     }
   }, []);
-  const handleLogin = () => {
+  const handleLogin = (e) => {
+    e.preventDefault();
     setBlockLoader(true);
     axios
       .post(`${URL}login`, values)
@@ -81,6 +85,7 @@ const Login = (props) => {
         localStorage.setItem("token", token);
         localStorage.setItem("user", user.username);
         setBlockLoader(false);
+        HEADER.headers.Authorization = `Bearer ${token}`;
         ToastsStore.success(dataRESPONSE.data.mensaje);
         navigate("/home");
       })
@@ -120,49 +125,53 @@ const Login = (props) => {
           <h1 className="color-constrast u-margin-bottom-2">
             Bienvenido de vuelta
           </h1>
-          <TextField
-            className="input-field-login u-margin-top-2"
-            label="Usuario"
-            id="filled-user-nameuser"
-            placeholder="Ingrese nombre de usuario"
-            variant="filled"
-            onChange={handleChange("username")}
-          />
-          <FormControl
-            variant="filled"
-            className="input-field-login u-margin-top-2"
-          >
-            <InputLabel htmlFor="filled-adornment-password">
-              Contraseña
-            </InputLabel>
-            <FilledInput
-              id="filled-user-password"
-              type="password"
-              onChange={handleChange("password")}
-              placeholder="Ingresa tu contraseña"
-              endAdornment={
-                <InputAdornment position="end">
-                  <IconButton
-                    style={{ color: "white" }}
-                    aria-label="toggle password visibility"
-                    onClick={handleChangeType}
-                    edge="end"
-                  >
-                    {showIcon ? <Visibility /> : <VisibilityOff />}
-                  </IconButton>
-                </InputAdornment>
-              }
+
+          <form onSubmit={handleLogin} noValidate>
+            <TextField
+              className={`input-field-login u-margin-top-2 ${classes.fieldWidth}`}
+              label="Usuario"
+              id="filled-user-nameuser"
+              placeholder="Ingrese nombre de usuario"
+              variant="filled"
+              onChange={handleChange("username")}
             />
-          </FormControl>
-          <Button
-            size="large"
-            className="button-gradient-primary u-margin-top-2"
-            variant="contained"
-            color="primary"
-            onClick={handleLogin}
-          >
-            Iniciar Sesión
-          </Button>
+            <FormControl
+              variant="filled"
+              className={`input-field-login u-margin-top-2 ${classes.fieldWidth}`}
+            >
+              <InputLabel htmlFor="filled-adornment-password">
+                Contraseña
+              </InputLabel>
+              <FilledInput
+                className={classes.fieldWidth}
+                id="filled-user-password"
+                type="password"
+                onChange={handleChange("password")}
+                placeholder="Ingresa tu contraseña"
+                endAdornment={
+                  <InputAdornment position="end">
+                    <IconButton
+                      style={{ color: "white" }}
+                      aria-label="toggle password visibility"
+                      onClick={handleChangeType}
+                      edge="end"
+                    >
+                      {showIcon ? <Visibility /> : <VisibilityOff />}
+                    </IconButton>
+                  </InputAdornment>
+                }
+              />
+            </FormControl>
+            <Button
+              size="large"
+              className={`button-gradient-primary u-margin-top-2 ${classes.fieldWidth}`}
+              variant="contained"
+              color="primary"
+              type="submit"
+            >
+              Iniciar Sesión
+            </Button>
+          </form>
         </Grid>
       </Grid>
     </>
