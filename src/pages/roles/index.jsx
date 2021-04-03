@@ -32,9 +32,13 @@ import FormHelperText from "@material-ui/core/FormHelperText";
 import TextField from "@material-ui/core/TextField";
 import InputLabel from "@material-ui/core/InputLabel";
 import {Layout} from "../../components/layout";
+import {DEFAULT_STATE} from "../../helpers/constants";
+import {STATE_OPTIONS} from "../../helpers/selects";
+import {SimpleSelect} from "../../components/select";
 
 export function Roles(props) {
     const [blockLoader, setBlockLoader] = useState(false);
+    const [select, setSelect] = useState(DEFAULT_STATE);
     const {path} = props;
     /**
      * Handle => Close Modal
@@ -126,10 +130,10 @@ export function Roles(props) {
 
     const [stateRol, setStateRole] = useState([]);
 
-    const handleGetRole = () => {
+    function handleGetRole(state) {
         setBlockLoader(true);
         axios
-            .get(`${URL}roles?state=ACTIVO`, HEADER)
+            .get(`${URL}roles?state=${state}`, HEADER)
             .then((dataRole) => {
                 const {data} = dataRole;
                 setStateRole(data);
@@ -140,6 +144,11 @@ export function Roles(props) {
                 ToastsStore.error("Ocurrio un error al obtener los usuarios");
             });
     };
+
+    function changeFilter(state) {
+        setSelect(state);
+        handleGetRole(state);
+    }
     /**
      * Handle ==> Delete user by id
      */
@@ -148,7 +157,7 @@ export function Roles(props) {
         axios
             .put(`${URL}roles/delete/${position}`, {}, HEADER)
             .then((response) => {
-                handleGetRole();
+                handleGetRole(DEFAULT_STATE);
                 ToastsStore.success("Eliminado correctamente");
             })
             .catch((error) => {
@@ -159,7 +168,7 @@ export function Roles(props) {
     const [idRol, setIdRol] = useState();
 
     useEffect(() => {
-        handleGetRole();
+        handleGetRole(DEFAULT_STATE);
     }, []);
 
     // FOR MODAL
@@ -190,7 +199,7 @@ export function Roles(props) {
                     .post(`${URL}roles`, role, HEADER)
                     .then((response) => {
                         handleClose();
-                        handleGetRole();
+                        handleGetRole(DEFAULT_STATE);
                         ToastsStore.success("Rol agregado correctamente");
                         setBlockLoader(false);
                     })
@@ -221,7 +230,7 @@ export function Roles(props) {
                     )
                     .then(() => {
                         handleClose();
-                        handleGetRole();
+                        handleGetRole(DEFAULT_STATE);
                         ToastsStore.success("Guardado correctamente");
                         setBlockLoader(false);
                     })
@@ -292,7 +301,7 @@ export function Roles(props) {
             .put(`${URL}roles/${idRolRes}/resources`, idResourceRol, HEADER)
             .then(() => {
                 handleCloseModalAsignResource();
-                handleGetRole();
+                handleGetRole(DEFAULT_STATE);
                 ToastsStore.success("Guardado correctamente");
                 setBlockLoader(false);
             })
@@ -313,10 +322,7 @@ export function Roles(props) {
                     >
                         Adicionar Nuevo
                     </Button>
-                    <Select labelId="label" id="select" value="20">
-                        <MenuItem value="10">Ten</MenuItem>
-                        <MenuItem value="20">Twenty</MenuItem>
-                    </Select>
+                    <SimpleSelect values={STATE_OPTIONS} select={select} onChange={changeFilter} />
                 </Toolbar>
                 {blockLoader ? <LoaderBlock/> : ""}
 

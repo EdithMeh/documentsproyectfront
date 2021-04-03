@@ -29,9 +29,13 @@ import FormHelperText from "@material-ui/core/FormHelperText";
 import TextField from "@material-ui/core/TextField";
 import InputLabel from "@material-ui/core/InputLabel";
 import {Layout} from "../../components/layout";
+import {DEFAULT_STATE} from "../../helpers/constants";
+import {STATE_OPTIONS} from "../../helpers/selects";
+import {SimpleSelect} from "../../components/select";
 
 export function Resources(props) {
     const [blockLoader, setBlockLoader] = useState(false);
+    const [select, setSelect] = useState(DEFAULT_STATE);
     const {path} = props;
     /**
      * Handle => Close Modal
@@ -152,10 +156,10 @@ export function Resources(props) {
 
     const [stateResource, setStateResource] = useState([]);
 
-    const handleGetResource = () => {
+    function handleGetResource(state) {
         setBlockLoader(true);
         axios
-            .get(`${URL}resource?state=ACTIVO`, HEADER)
+            .get(`${URL}resource?state=${state}`, HEADER)
             .then((dataRole) => {
                 const {data} = dataRole;
                 setStateResource(data);
@@ -166,6 +170,12 @@ export function Resources(props) {
                 ToastsStore.error("Ocurrio un error al obtener los usuarios");
             });
     };
+
+    function changeFilter(state) {
+        setSelect(state);
+        handleGetResource(state);
+    }
+
     /**
      * Handle ==> Delete user by id
      */
@@ -174,7 +184,7 @@ export function Resources(props) {
         axios
             .put(`${URL}resource/delete/${position}`, {}, HEADER)
             .then((response) => {
-                handleGetResource();
+                handleGetResource(DEFAULT_STATE);
                 ToastsStore.success("Eliminado correctamente");
             })
             .catch((error) => {
@@ -185,7 +195,7 @@ export function Resources(props) {
     const [idRol, setIdRol] = useState();
 
     useEffect(() => {
-        handleGetResource();
+        handleGetResource(DEFAULT_STATE);
     }, []);
 
     // FOR MODAL
@@ -221,7 +231,7 @@ export function Resources(props) {
                     .post(`${URL}resource`, resource, HEADER)
                     .then((response) => {
                         handleClose();
-                        handleGetResource();
+                        handleGetResource(DEFAULT_STATE);
                         ToastsStore.success("Recurso agregado correctamente");
                         setBlockLoader(false);
                     })
@@ -261,7 +271,7 @@ export function Resources(props) {
                     )
                     .then(() => {
                         handleClose();
-                        handleGetResource();
+                        handleGetResource(DEFAULT_STATE);
                         ToastsStore.success("Guardado correctamente");
                         setBlockLoader(false);
                     })
@@ -287,13 +297,9 @@ export function Resources(props) {
                     >
                         Adicionar Nuevo
                     </Button>
-                    <Select labelId="label" id="select" value="20">
-                        <MenuItem value="10">Ten</MenuItem>
-                        <MenuItem value="20">Twenty</MenuItem>
-                    </Select>
+                    <SimpleSelect values={STATE_OPTIONS} select={select} onChange={changeFilter} />
                 </Toolbar>
                 {blockLoader ? <LoaderBlock/> : ""}
-
                 <div>
                     <Paper className={classes.root}>
                         <TableContainer className={classes.container}>
