@@ -2,19 +2,16 @@ import React, { useEffect, useState } from "react";
 import { Router } from "@reach/router";
 import { ToastsContainer, ToastsStore } from "react-toasts";
 import axios from "axios";
-// Pages
 import { AuthContext } from "./context/useAuth";
-// Pages
-import Login from "./pages/auth/Login";
-import Home from "./pages/dashboard/home";
-import Usuarios from "./pages/dashboard/usuarios";
-import Roles from "./pages/dashboard/roles";
-import Recursos from "./pages/dashboard/recursos";
-import Proyectos from "./pages/dashboard/proyectos";
-import Documentos from "./pages/dashboard/documentos";
-import { HEADER } from "./config/settings";
+import {Users} from "./pages/users";
 import { navigate } from "@reach/router";
-const App = () => {
+import {Roles} from "./pages/roles";
+import {Resources} from "./pages/resources";
+import {Documents} from "./pages/documents";
+import {Projects} from "./pages/projects";
+import {Home} from "./pages/dashboard";
+import {Login} from "./pages/auth";
+export function App() {
   const [currentUser, setCurrentUser] = useState([]);
 
   axios.defaults.baseURL = "https://projectssystems.herokuapp.com/api";
@@ -65,14 +62,12 @@ const App = () => {
       <Router>
         <Login path="login" default />
         <Home path="home" />
-        <Usuarios path="usuarios" />
+        <Users path="usuarios" />
         <Roles path="roles" />
-        <Recursos path="recursos" />
-        <Proyectos path="proyectos" />
-        <Documentos path="documentos" />
+        <Resources path="recursos" />
+        <Projects path="proyectos" />
+        <Documents path="documentos" />
       </Router>
     </AuthContext.Provider>
   );
-};
-
-export default App;
+}

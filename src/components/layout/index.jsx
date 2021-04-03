@@ -1,6 +1,6 @@
 import React from "react";
-import SideBar from "./sidebar";
 import { makeStyles } from "@material-ui/core/styles";
+import {SideBar} from "../sidebar";
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
@@ -12,7 +12,9 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(3),
   },
 }));
-const Layout = ({ children, namePath }) => {  
+
+export function Layout(props) {
+  const { children, namePath } = props
   const classes = useStyles();
   return (
     <div className={classes.root}>
@@ -23,5 +25,4 @@ const Layout = ({ children, namePath }) => {
       </main>
     </div>
   );
-};
-export default Layout;
+}

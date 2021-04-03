@@ -1,7 +1,6 @@
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
-import React, {useState} from "react";
-import {INITIAL_INDEX} from "../../helpers/constants";
+import React from "react";
 
 /**
  * Select component

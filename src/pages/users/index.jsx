@@ -7,7 +7,6 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Button from "@material-ui/core/Button";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
-// Components for tables
 import Paper from "@material-ui/core/Paper";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -16,13 +15,10 @@ import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import IconButton from "@material-ui/core/IconButton";
-// Components
-import Layout from "../../components/layout/layout";
 import { LoaderBlock } from "../../components/styled/LoaderBlock";
 import { URL, HEADER } from "../../config/settings";
 import { useStyles } from "../../components/styled/UserStyled";
 import { ToastsStore } from "react-toasts";
-// Icons
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
 import CloseIcon from "@material-ui/icons/Close";
@@ -37,8 +33,10 @@ import TextField from "@material-ui/core/TextField";
 import InputLabel from "@material-ui/core/InputLabel";
 import {STATE_OPTIONS} from "../../helpers/selects";
 import {SimpleSelect} from "../../components/select";
-import {DEFAULT_STATE, INITIAL_INDEX} from "../../helpers/constants";
-const Usuarios = (props) => {
+import {DEFAULT_STATE} from "../../helpers/constants";
+import {Layout} from "../../components/layout";
+
+export function Users(props) {
   const [blockLoader, setBlockLoader] = useState(false);
   const [select, setSelect] = useState(DEFAULT_STATE);
   const { path } = props;
@@ -771,6 +769,4 @@ const Usuarios = (props) => {
       </Modal>
     </>
   );
-};
-
-export default Usuarios;
+}
