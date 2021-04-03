@@ -14,7 +14,6 @@ import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
 import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
-import TablePagination from "@material-ui/core/TablePagination";
 import TableRow from "@material-ui/core/TableRow";
 import IconButton from "@material-ui/core/IconButton";
 // Components
@@ -30,17 +29,20 @@ import CloseIcon from "@material-ui/icons/Close";
 import SaveIcon from "@material-ui/icons/Save";
 import AddIcon from "@material-ui/icons/Add";
 import axios from "axios";
-import AssignResourcesUser from "../modals/AssingResourcesUser";
 import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
 import Backdrop from "@material-ui/core/Backdrop";
 import Grid from "@material-ui/core/Grid";
 import FormHelperText from "@material-ui/core/FormHelperText";
 import TextField from "@material-ui/core/TextField";
 import InputLabel from "@material-ui/core/InputLabel";
-import { Input } from "@material-ui/core";
+import {STATE_OPTIONS} from "../../helpers/selects";
+import {SimpleSelect} from "../../components/select";
+import {DEFAULT_STATE, INITIAL_INDEX} from "../../helpers/constants";
 const Usuarios = (props) => {
   const [blockLoader, setBlockLoader] = useState(false);
+  const [select, setSelect] = useState(DEFAULT_STATE);
   const { path } = props;
+
   /**
    * Handle => Close Modal
    */
@@ -164,22 +166,28 @@ const Usuarios = (props) => {
   ];
   const [name, setName] = useState("Composed TextField");
 
-  const [stateUser, setStateUser] = useState([]);
+  const [users, setUsers] = useState([]);
 
-  const handleGetUsers = () => {
+  function handleGetUsers(state) {
     setBlockLoader(true);
     axios
-      .get(`${URL}users?state=ACTIVO`, HEADER)
+      .get(`${URL}users?state=${state}`, HEADER)
       .then((dataUSER) => {
         const { data } = dataUSER;
-        setStateUser(data);
+        setUsers(data);
         setBlockLoader(false);
       })
       .catch((error) => {
         setBlockLoader(false);
         ToastsStore.error("Ocurrio un error al obtener los usuarios");
       });
-  };
+  }
+
+  function changeFilter(state) {
+    setSelect(state);
+    handleGetUsers(state);
+  }
+
   /**
    * Handle ==> Delete user by id
    */
@@ -188,7 +196,7 @@ const Usuarios = (props) => {
     axios
       .put(`${URL}users/delete/${position}`, {}, HEADER)
       .then((response) => {
-        handleGetUsers();
+        handleGetUsers(DEFAULT_STATE);
         ToastsStore.success("Eliminado correctamente");
       })
       .catch((error) => {
@@ -200,7 +208,7 @@ const Usuarios = (props) => {
   const [itemRolUser, setItemRolUser] = useState();
 
   useEffect(() => {
-    handleGetUsers();
+    handleGetUsers(DEFAULT_STATE);
   }, []);
 
   // FOR MODAL
@@ -237,7 +245,7 @@ const Usuarios = (props) => {
           .post(`${URL}users`, user, HEADER)
           .then((response) => {
             handleClose();
-            handleGetUsers();
+            handleGetUsers(DEFAULT_STATE);
             ToastsStore.success("Usuario agregado correctamente");
             setBlockLoader(false);
           })
@@ -276,7 +284,7 @@ const Usuarios = (props) => {
           )
           .then((response) => {
             handleClose();
-            handleGetUsers();
+            handleGetUsers(DEFAULT_STATE);
             ToastsStore.success("Guardado correctamente");
             setBlockLoader(false);
           })
@@ -343,7 +351,7 @@ const Usuarios = (props) => {
       .put(`${URL}users/${idUser}/roles`, idRolUser, HEADER)
       .then(() => {
         handleCloseModalAsignRol();
-        handleGetUsers();
+        handleGetUsers(DEFAULT_STATE);
         ToastsStore.success("Guardado correctamente");
         setBlockLoader(false);
       })
@@ -365,10 +373,7 @@ const Usuarios = (props) => {
           >
             Adicionar Nuevo
           </Button>
-          <Select labelId="label" id="select" value="20">
-            <MenuItem value="10">Ten</MenuItem>
-            <MenuItem value="20">Twenty</MenuItem>
-          </Select>
+          <SimpleSelect values={STATE_OPTIONS} select={select} onChange={changeFilter} />
         </Toolbar>
         {blockLoader ? <LoaderBlock /> : ""}
 
@@ -389,7 +394,7 @@ const Usuarios = (props) => {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {stateUser.map((item, i) => (
+                  {users.map((item, i) => (
                     <TableRow hover role="checkbox" tabIndex={-1} key={i}>
                       <TableCell>{item.name}</TableCell>
                       <TableCell>{item.name}</TableCell>
@@ -426,7 +431,7 @@ const Usuarios = (props) => {
             {/* <TablePagination
             rowsPerPageOptions={[10, 25, 100]}
             component="div"
-            count={stateUser.data.length}
+            count={users.data.length}
             rowsPerPage={rowsPerPage}
             page={page}
             onChangePage={handleChangePage}
