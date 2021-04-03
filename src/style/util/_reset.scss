@@ -1,0 +1,36 @@
+// Reset inputs
+.input-field-login {
+  background: #3e4049;
+  border-radius: 5px;
+  border: none;
+  border: none;
+  label {
+    color: rgba(255, 255, 255, 0.638) !important;
+    border: none;
+  }
+  div {
+    border: none;
+    &::before {
+      display: none;
+    }
+    &::after {
+      display: none;
+    }
+    input {
+      color: white;
+      border: none;
+    }
+  }
+}
+
+// Input seelct
+.input-state-select {
+  &::before {
+  }
+}
+
+.logo-text {
+  color: white;
+  font-size: 1em;
+  text-decoration: none;
+}
