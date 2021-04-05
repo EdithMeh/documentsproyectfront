@@ -4,10 +4,10 @@ const url = 'projects';
 
 const apiProjects = new ApiCore({
     getAll: true,
-    getSingle: true,
+    getSingle: false,
     post: true,
-    put: false,
-    patch: true,
+    put: true,
+    patch: false,
     url: url,
 });
 

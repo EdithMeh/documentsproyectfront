@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { handleResponse, handleError } from './response';
+import { handleError } from './response';
 import {HEADER, URL_SERVER} from "../../config/settings";
 import {CONNECT_PARAMS} from "../../helpers/constants";
 import {objectToQueryString} from "../../helpers/apiHelpers";
@@ -16,7 +16,6 @@ export function getAll(resource, params) {
 	if (params) {
 		url += CONNECT_PARAMS + objectToQueryString(params);
 	}
-	console.log(url, HEADER);
 	return axios
 		.get(url, HEADER)
 		.then((data) => {
@@ -34,8 +33,10 @@ export function getAll(resource, params) {
  */
 export function getSingle(resource, id) {
 	return axios
-		.get(`${URL_SERVER}/${resource}/${id}`)
-		.then(handleResponse)
+		.get(`${URL_SERVER}/${resource}/${id}`, HEADER)
+		.then((data) => {
+			return data;
+		})
 		.catch(handleError);
 }
 
@@ -48,8 +49,10 @@ export function getSingle(resource, id) {
  */
 export function post(resource, model) {
 	return axios
-		.post(`${URL_SERVER}/${resource}`, model)
-		.then(handleResponse)
+		.post(`${URL_SERVER}/${resource}`, model, HEADER)
+		.then((data) => {
+			return data;
+		})
 		.catch(handleError);
 }
 
@@ -62,8 +65,10 @@ export function post(resource, model) {
  */
 export function put(resource, model) {
 	return axios
-		.put(`${URL_SERVER}/${resource}`, model)
-		.then(handleResponse)
+		.put(`${URL_SERVER}/${resource}`, model, HEADER)
+		.then((data) => {
+			return data;
+		})
 		.catch(handleError);
 }
 
@@ -76,7 +81,9 @@ export function put(resource, model) {
  */
 export function patch(resource, model) {
 	return axios
-		.patch(`${URL_SERVER}/${resource}`, model)
-		.then(handleResponse)
+		.patch(`${URL_SERVER}/${resource}`, model, HEADER)
+		.then((data) => {
+			return data;
+		})
 		.catch(handleError);
 }

@@ -1,20 +1,17 @@
 import React, {useState} from "react";
 import Toolbar from "@material-ui/core/Toolbar";
 import Grid from "@material-ui/core/Grid";
-import Button from "@material-ui/core/Button";
-import AddIcon from "@material-ui/icons/Add";
 import {useStyles} from "../../../components/styled/UserStyled";
 import SimpleCard from "../components/card";
 import {ProjectsActions, ProjectsData} from "../context/projectContext";
 import {STATE_OPTIONS} from "../../../helpers/selects";
 import {SimpleSelect} from "../../../components/select";
-import {DEFAULT_STATE} from "../../../helpers/constants";
+import {BUTTON_ADD, DEFAULT_STATE} from "../../../helpers/constants";
+import {PrimaryButton} from "../../../components/primaryButton";
 
-export function ProjectsContainer(props) {
+export function ProjectsContainer() {
     const classes = useStyles();
-
     const [select, setSelect] = useState(DEFAULT_STATE);
-
     const {projects} = ProjectsData();
     const actions = ProjectsActions();
 
@@ -23,17 +20,21 @@ export function ProjectsContainer(props) {
         actions.onLoad(state);
     }
 
+    function add() {
+        actions.addProject(
+            {
+                "description": "Proyecto de prueba frontend",
+                "name": "Frontend test",
+                "repository": "/repor/rep",
+                "type": "DESARROLLO"
+            }
+        );
+    }
+
     return (
         <>
             <Toolbar className={classes.toolbarHeader}>
-                <Button
-                    onClick={() => console.log('open new')}
-                    variant="contained"
-                    className={`${classes.buttonAdd} button-gradient-primary`}
-                    startIcon={<AddIcon/>}
-                >
-                    Adicionar Nuevo
-                </Button>
+                <PrimaryButton onClick={add} value={BUTTON_ADD} />
                 <SimpleSelect values={STATE_OPTIONS} select={select} onChange={changeFilter} />
             </Toolbar>
             <Grid

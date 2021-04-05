@@ -19,6 +19,23 @@ function onLoad(dispatch, payload) {
 }
 
 /**
+ * add new project
+ *
+ * @param {object} dispatch - dispatch of context
+ * @param {object} payload - data
+ */
+function addProject(dispatch, payload) {
+    dispatch({type: ActionTypes.LOADING_CHANGE, payload: true});
+    apiProjects.post(payload).then((response) => {
+        dispatch({
+            type: ActionTypes.PROJECT_ADD,
+            payload: response.data
+        });
+    });
+}
+
+
+/**
  * Factory of actions
  *
  * @param {object} dispatch - dispatch of context
@@ -27,5 +44,6 @@ function onLoad(dispatch, payload) {
 export default function ActionFactory(dispatch = noop) {
     return {
         onLoad: (payload) => onLoad(dispatch, payload),
+        addProject: (payload) => addProject(dispatch, payload),
     };
 }

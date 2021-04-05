@@ -23,6 +23,7 @@ export const useStyles = makeStyles((theme) => ({
   buttonAdd: {
     textTransform: "capitalize",
     color: "white",
+    backgroundColor: "#2b3169",
   },
   toolbarHeader: {
     width: "100%",

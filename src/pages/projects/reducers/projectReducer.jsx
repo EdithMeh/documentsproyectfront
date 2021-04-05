@@ -24,11 +24,13 @@ export function projectReducer(state, action) {
   return produce(state, (draft) => {
     switch (type) {
       case ActionTypes.PROJECT_ADD: {
+        console.log(payload);
         draft.projects = [...state.projects, payload];
+        draft.loading = false;
         break;
       }
       case ActionTypes.PROJECT_REMOVE: {
-        draft.projects = state.projects.filter((task) => payload.id !== projects.id);
+        draft.projects = state.projects.filter((projects) => payload.id !== projects.id);
         break;
       }
       case ActionTypes.PROJECT_FILTER: {
