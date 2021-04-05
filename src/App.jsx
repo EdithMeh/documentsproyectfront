@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {Router} from "@reach/router";
-import {ToastsContainer, ToastsStore} from "react-toasts";
+import {ToastsContainer, ToastsContainerPosition, ToastsStore} from "react-toasts";
 import axios from "axios";
 import {AuthContext} from "./context/useAuth";
 import {Users} from "./pages/users";
@@ -27,39 +27,11 @@ export function App() {
             localStorage.removeItem("user");
             navigate("/");
         }
-        // if (status === 404) {
-        //   console.log("ERROR 404");
-        // }
-        // if (
-        //   status === 400 &&
-        //   config.method === "get" &&
-        //   data.errors.hasOwnProperty("id")
-        // ) {
-        //   console.log("ERROR 400");
-        // }
-        // if (status === 500) {
-        //   console.log("ERROR 5000");
-        // }
     });
-    useEffect(() => {
-        // axios
-        //   .get(`${URL}users?state=ACTIVO`, HEADER)
-        //   .then((dataUSER) => {
-        //     const { data } = dataUSER;
-        //     setCurrentUser((prevState) => ({ ...prevState, data }));
-        //   })
-        //   .catch((error) => {
-        //   console.log(error, "error")
-        //     ToastsStore.error("Sessión expirada");
-        //     localStorage.removeItem("token");
-        //     localStorage.removeItem("user");
-        //     navigate("/");
-        //   });
-    }, []);
 
     return (
         <AuthContext.Provider value={currentUser}>
-            <ToastsContainer store={ToastsStore}/>
+            <ToastsContainer store={ToastsStore} position={ToastsContainerPosition.BOTTOM_RIGHT}/>
             <Router>
                 <Login path="login" default/>
                 <Home path="home"/>

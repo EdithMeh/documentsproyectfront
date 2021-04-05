@@ -7,6 +7,7 @@ import React, {
 } from 'react';
 import ActionFactory from './actions';
 import {projectReducer, State} from "../reducers/projectReducer";
+import {DEFAULT_STATE} from "../../../helpers/constants";
 
 export const ProjectsContext = createContext();
 export const DispatchProjectContext = createContext();
@@ -23,7 +24,7 @@ export function ProjectsProvider(props) {
   const actions = useMemo(() => ActionFactory(dispatch), []);
 
   useEffect(() => {
-    actions.onLoad();
+    actions.onLoad(DEFAULT_STATE);
   }, []);
 
   return (

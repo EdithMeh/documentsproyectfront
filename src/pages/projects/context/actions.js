@@ -10,7 +10,7 @@ import noop from "../../../helpers/noop";
  */
 function onLoad(dispatch, payload) {
     dispatch({type: ActionTypes.LOADING_CHANGE, payload: true});
-    apiProjects.getAll({state: 'ACTIVO'}).then((response) => {
+    apiProjects.getAll({state: payload}).then((response) => {
         dispatch({
             type: ActionTypes.PROJECT_ONLOAD,
             payload: response.data

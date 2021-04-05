@@ -1,16 +1,27 @@
-import React from "react";
+import React, {useState} from "react";
 import Toolbar from "@material-ui/core/Toolbar";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 import AddIcon from "@material-ui/icons/Add";
 import {useStyles} from "../../../components/styled/UserStyled";
 import SimpleCard from "../components/card";
-import {ProjectsData} from "../context/projectContext";
+import {ProjectsActions, ProjectsData} from "../context/projectContext";
+import {STATE_OPTIONS} from "../../../helpers/selects";
+import {SimpleSelect} from "../../../components/select";
+import {DEFAULT_STATE} from "../../../helpers/constants";
 
 export function ProjectsContainer(props) {
     const classes = useStyles();
 
+    const [select, setSelect] = useState(DEFAULT_STATE);
+
     const {projects} = ProjectsData();
+    const actions = ProjectsActions();
+
+    function changeFilter(state) {
+        setSelect(state);
+        actions.onLoad(state);
+    }
 
     return (
         <>
@@ -23,6 +34,7 @@ export function ProjectsContainer(props) {
                 >
                     Adicionar Nuevo
                 </Button>
+                <SimpleSelect values={STATE_OPTIONS} select={select} onChange={changeFilter} />
             </Toolbar>
             <Grid
                 container
