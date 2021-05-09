@@ -34,8 +34,6 @@ export function DocumentsContainer() {
     }
 
     function add(value) {
-        console.log("adicionando  ", value);
-        console.log("adicionando  ", file);
         let formData = new FormData();
         formData.append("file", file.file);
         formData.append('document', new Blob([JSON.stringify(value)], {
@@ -55,6 +53,11 @@ export function DocumentsContainer() {
 
     function click(value) {
         console.log(value)
+    }
+
+    function download(value) {
+        console.log('ddd', value)
+        actions.downloadDocument(value);
     }
 
     /**
@@ -83,7 +86,7 @@ export function DocumentsContainer() {
                                     <TableCell>{item.classification}</TableCell>
                                     <TableCell>{item.type}</TableCell>
                                     <TableCell>
-                                        <IconButtonTable onClick={click} value={item.id}
+                                        <IconButtonTable onClick={download} value={item.id}
                                                          icon={<GetApp color="primary"/>}/>
                                         <IconButtonTable onClick={click} value={item.id}
                                                          icon={<EditIcon color="primary"/>}/>
