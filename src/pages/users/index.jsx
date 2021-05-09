@@ -5,73 +5,79 @@ import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
 import Toolbar from "@material-ui/core/Toolbar";
 import Button from "@material-ui/core/Button";
-// Components for tables
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Checkbox from "@material-ui/core/Checkbox";
 import Paper from "@material-ui/core/Paper";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
 import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
-import TablePagination from "@material-ui/core/TablePagination";
 import TableRow from "@material-ui/core/TableRow";
 import IconButton from "@material-ui/core/IconButton";
-// Components
-import Layout from "../../components/layout/layout";
 import { LoaderBlock } from "../../components/styled/LoaderBlock";
 import { URL, HEADER } from "../../config/settings";
 import { useStyles } from "../../components/styled/UserStyled";
 import { ToastsStore } from "react-toasts";
-// Icons
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
 import CloseIcon from "@material-ui/icons/Close";
 import SaveIcon from "@material-ui/icons/Save";
 import AddIcon from "@material-ui/icons/Add";
 import axios from "axios";
-import AssignResourcesUser from "../modals/AssingResourcesUser";
 import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
 import Backdrop from "@material-ui/core/Backdrop";
 import Grid from "@material-ui/core/Grid";
 import FormHelperText from "@material-ui/core/FormHelperText";
 import TextField from "@material-ui/core/TextField";
 import InputLabel from "@material-ui/core/InputLabel";
-const Recursos = (props) => {
+import {STATE_OPTIONS} from "../../helpers/selects";
+import {SimpleSelect} from "../../components/select";
+import {DEFAULT_STATE} from "../../helpers/constants";
+import {Layout} from "../../components/layout";
+
+export function Users(props) {
   const [blockLoader, setBlockLoader] = useState(false);
+  const [select, setSelect] = useState(DEFAULT_STATE);
   const { path } = props;
+
   /**
-   * Handle => Close Modal
+   * Handle => Close modal
    */
   const handleClose = () => {
     setOpen(false);
     setMsgError({
-      resource: "",
-      description: "",
+      email: "",
+      name: "",
+      password: "",
+      telephone: "",
+      username: "",
       state: "",
-      path: "",
-      icon: "",
     });
-    setResource({
-      resource: "",
-      description: "",
+    setUser({
+      email: "",
+      name: "",
+      password: "",
+      telephone: "",
+      username: "",
       state: "",
-      path: "",
-      icon: "",
     });
   };
-  const [resource, setResource] = useState({
-    resource: "",
-    description: "",
+  const [user, setUser] = useState({
+    email: "",
+    name: "",
+    password: "",
+    telephone: "",
+    username: "",
     state: "",
-    path: "",
-    icon: "",
   });
-
   const [msgError, setMsgError] = useState({
-    resource: "",
-    description: "",
+    email: "",
+    name: "",
+    password: "",
+    telephone: "",
+    username: "",
     state: "",
-    path: "",
-    icon: "",
   });
   // Table content
   const [page, setPage] = React.useState(0);
@@ -105,46 +111,49 @@ const Recursos = (props) => {
     // setListState(e.target.value);
     let errors = msgError;
     switch (name) {
-      case "resource":
-        errors.resource = value === "" ? "Este campo es requerido" : "";
+      case "email":
+        errors.email = value === "" ? "Este campo es requerido" : "";
         break;
-      case "description":
-        errors.description = value === "" ? "Este campo es requerido" : "";
+      case "name":
+        errors.name = value === "" ? "Este campo es requerido" : "";
         break;
-      case "icon":
-        errors.icon = value === "" ? "Este campo es requerido" : "";
+      case "password":
+        errors.password = value === "" ? "Este campo es requerido" : "";
         break;
-      case "path":
-        errors.path = value === "" ? "Este campo es requerido" : "";
+      case "telephone":
+        errors.telephone = value === "" ? "Este campo es requerido" : "";
+        break;
+      case "username":
+        errors.username = value === "" ? "Este campo es requerido" : "";
+        break;
+      case "state":
+        errors.state = value === "" ? "Este campo es requerido" : "";
         break;
       default:
         break;
     }
-    setResource((prevState) => ({
+    setUser((prevState) => ({
       ...prevState,
       [name]: value,
     }));
   };
 
   const columns = [
+    { id: "name", label: "Nombre", minWidth: 140 },
+    { id: "lastName", label: "Apellidos", minWidth: 140 },
     {
-      id: "resource",
-      label: "Recurso",
+      id: "username",
+      label: "Nombre de Usuario",
       minWidth: 140,
     },
     {
-      id: "description",
-      label: "Descripción",
+      id: "email",
+      label: "Correo",
       minWidth: 140,
     },
     {
-      id: "path",
-      label: "Path",
-      minWidth: 140,
-    },
-    {
-      id: "icon",
-      label: "Icono",
+      id: "celphone",
+      label: "Celular",
       minWidth: 140,
     },
     {
@@ -155,31 +164,37 @@ const Recursos = (props) => {
   ];
   const [name, setName] = useState("Composed TextField");
 
-  const [stateResource, setStateResource] = useState([]);
+  const [users, setUsers] = useState([]);
 
-  const handleGetResource = () => {
+  function handleGetUsers(state) {
     setBlockLoader(true);
     axios
-      .get(`${URL}resource?state=ACTIVO`, HEADER)
-      .then((dataRole) => {
-        const { data } = dataRole;
-        setStateResource(data);
+      .get(`${URL}users?state=${state}`, HEADER)
+      .then((dataUSER) => {
+        const { data } = dataUSER;
+        setUsers(data);
         setBlockLoader(false);
       })
       .catch((error) => {
         setBlockLoader(false);
         ToastsStore.error("Ocurrio un error al obtener los usuarios");
       });
-  };
+  }
+
+  function changeFilter(state) {
+    setSelect(state);
+    handleGetUsers(state);
+  }
+
   /**
    * Handle ==> Delete user by id
    */
-  const handleDeleteResource = (position) => {
+  const handleDeleteUser = (position) => {
     setBlockLoader(true);
     axios
-      .put(`${URL}resource/delete/${position}`, {}, HEADER)
+      .put(`${URL}users/delete/${position}`, {}, HEADER)
       .then((response) => {
-        handleGetResource();
+        handleGetUsers(DEFAULT_STATE);
         ToastsStore.success("Eliminado correctamente");
       })
       .catch((error) => {
@@ -187,10 +202,11 @@ const Recursos = (props) => {
       });
   };
   const [openResource, setOpenResource] = useState(false);
-  const [idRol, setIdRol] = useState();
+  const [idUser, setIdUser] = useState();
+  const [itemRolUser, setItemRolUser] = useState();
 
   useEffect(() => {
-    handleGetResource();
+    handleGetUsers(DEFAULT_STATE);
   }, []);
 
   // FOR MODAL
@@ -203,7 +219,7 @@ const Recursos = (props) => {
       setOpen(true);
       setTypeModal(type);
     } else {
-      setResource(item);
+      setUser(item);
       setPositionRow(position);
       setOpen(true);
       setTypeModal(type);
@@ -214,20 +230,21 @@ const Recursos = (props) => {
     setBlockLoader(true);
     e.preventDefault();
     if (
-      resource.resource === "" ||
-      resource.icon === "" ||
-      resource.path === "" ||
-      resource.description === ""
+      user.email === "" ||
+      user.name === "" ||
+      user.password === "" ||
+      user.telephone === "" ||
+      user.username === ""
     ) {
       ToastsStore.error("Completa el formulario");
     } else {
-      if (formValidate(msgError, resource)) {
+      if (formValidate(msgError, user)) {
         axios
-          .post(`${URL}resource`, resource, HEADER)
+          .post(`${URL}users`, user, HEADER)
           .then((response) => {
             handleClose();
-            handleGetResource();
-            ToastsStore.success("Recurso agregado correctamente");
+            handleGetUsers(DEFAULT_STATE);
+            ToastsStore.success("Usuario agregado correctamente");
             setBlockLoader(false);
           })
           .catch((response) => {
@@ -239,34 +256,33 @@ const Recursos = (props) => {
       }
     }
   };
-  const handleEditRol = (e) => {
+  const handleEditUser = (e) => {
     setBlockLoader(true);
     e.preventDefault();
     if (
-      resource.resource === "" ||
-      resource.icon === "" ||
-      resource.path === "" ||
-      resource.description === ""
+      user.email === "" ||
+      user.name === "" ||
+      user.password === "" ||
+      user.telephone === "" ||
+      user.username === ""
     ) {
       ToastsStore.error("Completa el formulario");
-      setBlockLoader(false);
     } else {
-      if (formValidate(msgError, resource)) {
+      if (formValidate(msgError, user)) {
         axios
           .put(
-            `${URL}resource/${positionRow}`,
+            `${URL}users/${positionRow}`,
             {
-              description: resource.description,
-              icon: resource.icon,
-              path: resource.path,
-              resource: resource.resource,
-              state: resource.state,
+              email: user.email,
+              name: user.name,
+              state: user.state,
+              telephone: user.telephone,
             },
             HEADER
           )
-          .then(() => {
+          .then((response) => {
             handleClose();
-            handleGetResource();
+            handleGetUsers(DEFAULT_STATE);
             ToastsStore.success("Guardado correctamente");
             setBlockLoader(false);
           })
@@ -279,7 +295,70 @@ const Recursos = (props) => {
       }
     }
   };
+  // For ASIGNAMET ROLES TO USER
+  const [checked, setChecked] = useState(false);
+  const [stateRole, setStateRole] = useState([]);  
+  const handleGetRole = () => {
+    axios
+      .get(`${URL}roles?state=ACTIVO`, HEADER)
+      .then((dataROLES) => {
+        const { data } = dataROLES;
+        setStateRole(data);
+      })
+      .catch((error) => {
+        ToastsStore.error("Ocurrio un error al obtener los usuarios");
+      });
+  };
+  useEffect(() => {
+    handleGetRole();
+  }, []);
+  const handleCloseModalAsignRol = () => {
+    setOpenResource(false);
+  };
+  const [idRolUser, setIdRolUser] = useState([]);
+  const handleAssingResources = (itemRol, position) => {
+    setIdUser(position);
+    setOpenResource(true);
+    // handleChangeCheck(itemRol, position);
+    for (let i = 0; i < stateRole.length; i++) {
+      stateRole[i].checked = false;
+      for (let j = 0; j < itemRol.length; j++) {
+        if (stateRole[i].id === itemRol[j]) {
+          stateRole[i].checked = true;
+        }
+      }
+    }
+    setIdRolUser(itemRol);
+  };
+  const handleChangeCheck = (resource) => {
+    const sameId = idRolUser.filter((item) => item === resource)[0];
+    if (resource === sameId) {
+      const tempRolUser = idRolUser.filter((same) => same !== resource);
+      setIdRolUser(tempRolUser);
+    } else {
+      idRolUser.push(resource);
+    }
+  };
 
+  /**
+   * Handle to assign role to user
+   */
+  const handleAssignUserRol = () => {
+    setBlockLoader(true);
+    axios
+      .put(`${URL}users/${idUser}/roles`, idRolUser, HEADER)
+      .then(() => {
+        handleCloseModalAsignRol();
+        handleGetUsers(DEFAULT_STATE);
+        ToastsStore.success("Guardado correctamente");
+        setBlockLoader(false);
+      })
+      .catch(() => {
+        setBlockLoader(false);
+        ToastsStore.error("Error al asignar el rol");
+      });
+  };
+  useEffect(() => {}, []);
   return (
     <>
       <Layout namePath={path}>
@@ -292,10 +371,7 @@ const Recursos = (props) => {
           >
             Adicionar Nuevo
           </Button>
-          <Select labelId="label" id="select" value="20">
-            <MenuItem value="10">Ten</MenuItem>
-            <MenuItem value="20">Twenty</MenuItem>
-          </Select>
+          <SimpleSelect values={STATE_OPTIONS} select={select} onChange={changeFilter} />
         </Toolbar>
         {blockLoader ? <LoaderBlock /> : ""}
 
@@ -310,19 +386,28 @@ const Recursos = (props) => {
                         key={column.id}
                         style={{ minWidth: column.minWidth }}
                       >
-                        {column.label}
+                        <strong>{column.label}</strong>
                       </TableCell>
                     ))}
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {stateResource.map((item, i) => (
+                  {users.map((item, i) => (
                     <TableRow hover role="checkbox" tabIndex={-1} key={i}>
-                      <TableCell>{item.resource}</TableCell>
-                      <TableCell>{item.description}</TableCell>
-                      <TableCell>{item.path}</TableCell>
-                      <TableCell>{item.icon}</TableCell>
+                      <TableCell>{item.name}</TableCell>
+                      <TableCell>{item.name}</TableCell>
+                      <TableCell>{item.name}</TableCell>
+                      <TableCell>{item.email}</TableCell>
+                      <TableCell>{item.telephone}</TableCell>
                       <TableCell>
+                        <IconButton
+                          size="small"
+                          onClick={() =>
+                            handleAssingResources(item.rolesIds, item.id)
+                          }
+                        >
+                          <MoreHorizIcon color="primary" />
+                        </IconButton>
                         <IconButton
                           size="small"
                           onClick={() => handleOpenModal(item, item.id, "edit")}
@@ -331,7 +416,7 @@ const Recursos = (props) => {
                         </IconButton>
                         <IconButton
                           size="small"
-                          onClick={() => handleDeleteResource(item.id)}
+                          onClick={() => handleDeleteUser(item.id)}
                         >
                           <DeleteIcon color="primary" />
                         </IconButton>
@@ -344,7 +429,7 @@ const Recursos = (props) => {
             {/* <TablePagination
             rowsPerPageOptions={[10, 25, 100]}
             component="div"
-            count={stateResource.data.length}
+            count={users.data.length}
             rowsPerPage={rowsPerPage}
             page={page}
             onChangePage={handleChangePage}
@@ -381,16 +466,16 @@ const Recursos = (props) => {
                       <FormControl className={classes.margin}>
                         <TextField
                           size="small"
-                          label="Nombre de Recurso"
-                          name="resource"
+                          label="Nombre"
+                          name="name"
                           onKeyUp={handleChange}
                           onBlur={handleChange}
                           variant="outlined"
-                          className={msgError.resource ? "border-error" : ""}
+                          className={msgError.name ? "border-error" : ""}
                         />
-                        {msgError.resource && (
+                        {msgError.name && (
                           <FormHelperText error>
-                            Este campo es requerido
+                            Nombre es requerido
                           </FormHelperText>
                         )}
                       </FormControl>
@@ -399,16 +484,27 @@ const Recursos = (props) => {
                       <FormControl className={classes.margin}>
                         <TextField
                           size="small"
-                          label="Descripción de Recurso"
-                          name="description"
+                          label="Apellidos"
+                          variant="outlined"
                           onKeyUp={handleChange}
                           onBlur={handleChange}
-                          variant="outlined"
-                          className={msgError.description ? "border-error" : ""}
                         />
-                        {msgError.description && (
+                      </FormControl>
+                    </Grid>
+                    <Grid item xs={6}>
+                      <FormControl className={classes.margin}>
+                        <TextField
+                          size="small"
+                          label="Username"
+                          name="username"
+                          variant="outlined"
+                          onKeyUp={handleChange}
+                          onBlur={handleChange}
+                          className={msgError.username ? "border-error" : ""}
+                        />
+                        {msgError.username && (
                           <FormHelperText error>
-                            Este campo es requerido
+                            Nombre de usuario es requerido
                           </FormHelperText>
                         )}
                       </FormControl>
@@ -417,16 +513,16 @@ const Recursos = (props) => {
                       <FormControl className={classes.margin}>
                         <TextField
                           size="small"
-                          label="Path"
-                          name="path"
+                          label="Correo"
+                          variant="outlined"
+                          name="email"
                           onKeyUp={handleChange}
                           onBlur={handleChange}
-                          variant="outlined"
-                          className={msgError.path ? "border-error" : ""}
+                          className={msgError.email ? "border-error" : ""}
                         />
-                        {msgError.path && (
+                        {msgError.email && (
                           <FormHelperText error>
-                            Este campo es requerido
+                            Email es requerido
                           </FormHelperText>
                         )}
                       </FormControl>
@@ -435,20 +531,40 @@ const Recursos = (props) => {
                       <FormControl className={classes.margin}>
                         <TextField
                           size="small"
-                          label="Icono"
-                          name="icon"
+                          label="Contraseña"
+                          variant="outlined"
+                          type="password"
+                          name="password"
                           onKeyUp={handleChange}
                           onBlur={handleChange}
-                          variant="outlined"
-                          className={msgError.icon ? "border-error" : ""}
+                          className={msgError.password ? "border-error" : ""}
                         />
-                        {msgError.icon && (
+                        {msgError.password && (
                           <FormHelperText error>
-                            Este campo es requerido
+                            Contraseña es requerido
                           </FormHelperText>
                         )}
                       </FormControl>
                     </Grid>
+                    <Grid item xs={6}>
+                      <FormControl className={classes.margin}>
+                        <TextField
+                          size="small"
+                          label="Celular"
+                          variant="outlined"
+                          name="telephone"
+                          onKeyUp={handleChange}
+                          onBlur={handleChange}
+                          className={msgError.telephone ? "border-error" : ""}
+                        />
+                        {msgError.telephone && (
+                          <FormHelperText error>
+                            Contraseña es requerido
+                          </FormHelperText>
+                        )}
+                      </FormControl>
+                    </Grid>
+
                     <Grid item xs={12} className={classes.alignCenter}>
                       <Button
                         // size="small"
@@ -478,23 +594,23 @@ const Recursos = (props) => {
                   className={classes.root}
                   noValidate
                   autoComplete="off"
-                  onSubmit={handleEditRol}
+                  onSubmit={handleEditUser}
                 >
                   <Grid container>
                     <Grid item xs={6}>
                       <FormControl className={classes.margin}>
                         <TextField
                           size="small"
-                          label="Nombre de Recurso"
-                          name="resource"
+                          label="Nombre"
+                          name="name"
                           onKeyUp={handleChange}
                           onBlur={handleChange}
                           variant="outlined"
-                          defaultValue={resource && resource.resource}
+                          defaultValue={user && user.name}
                         />
-                        {msgError.resource && (
+                        {msgError.name && (
                           <FormHelperText error>
-                            Este campo es requerido
+                            Nombre es requerido
                           </FormHelperText>
                         )}
                       </FormControl>
@@ -503,16 +619,17 @@ const Recursos = (props) => {
                       <FormControl className={classes.margin}>
                         <TextField
                           size="small"
-                          label="Descripción"
-                          name="description"
+                          label="Correo"
+                          variant="outlined"
+                          name="email"
                           onKeyUp={handleChange}
                           onBlur={handleChange}
-                          variant="outlined"
-                          defaultValue={resource && resource.description}
+                          defaultValue={user && user.email}
+                          className={msgError.email ? "border-error" : ""}
                         />
-                        {msgError.description && (
+                        {msgError.email && (
                           <FormHelperText error>
-                            Este campo es requerido
+                            Email es requerido
                           </FormHelperText>
                         )}
                       </FormControl>
@@ -521,34 +638,17 @@ const Recursos = (props) => {
                       <FormControl className={classes.margin}>
                         <TextField
                           size="small"
-                          label="Path"
-                          name="path"
+                          label="Celular"
+                          variant="outlined"
+                          name="telephone"
                           onKeyUp={handleChange}
                           onBlur={handleChange}
-                          variant="outlined"
-                          defaultValue={resource && resource.path}
+                          defaultValue={user && user.telephone}
+                          className={msgError.telephone ? "border-error" : ""}
                         />
-                        {msgError.path && (
+                        {msgError.telephone && (
                           <FormHelperText error>
-                            Este campo es requerido
-                          </FormHelperText>
-                        )}
-                      </FormControl>
-                    </Grid>
-                    <Grid item xs={6}>
-                      <FormControl className={classes.margin}>
-                        <TextField
-                          size="small"
-                          label="Icono"
-                          name="icon"
-                          onKeyUp={handleChange}
-                          onBlur={handleChange}
-                          variant="outlined"
-                          defaultValue={resource && resource.icon}
-                        />
-                        {msgError.icon && (
-                          <FormHelperText error>
-                            Este campo es requerido
+                            Contraseña es requerido
                           </FormHelperText>
                         )}
                       </FormControl>
@@ -565,7 +665,7 @@ const Recursos = (props) => {
                         <Select
                           labelId="demo-simple-select-outlined-label"
                           id="demo-simple-select-outlined"
-                          defaultValue={resource && resource.state}
+                          defaultValue={user && user.state}
                           onChange={handleChange}
                           label="Estado"
                           name="state"
@@ -609,8 +709,64 @@ const Recursos = (props) => {
           </div>
         </>
       </Modal>
+
+      <Modal
+        aria-labelledby="spring-modal-title"
+        aria-describedby="spring-modal-description"
+        className={classes.modal}
+        open={openResource}
+        onClose={handleCloseModalAsignRol}
+        closeAfterTransition
+        BackdropComponent={Backdrop}
+        BackdropProps={{
+          timeout: 200,
+        }}
+      >
+        <div className={classes.paper}>
+          <h2 className={classes.modalHeader}>ASIGNAR RECURSOS</h2>
+          <div className={classes.modalBody}>
+            <Grid container>
+              {stateRole.map((resource, i) => (
+                <Grid item xs={6} key={i}>
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        onChange={() => handleChangeCheck(resource.id)}
+                        defaultChecked={resource.checked}
+                        color="primary"
+                        value={resource.id}
+                        inputProps={{ "aria-label": "secondary checkbox" }}
+                      />
+                    }
+                    label={resource.role}
+                  />
+                </Grid>
+              ))}
+            </Grid>
+            <Grid item xs={12} className={classes.alignCenter}>
+              <Button
+                className={`${classes.margin} button-gradient-danger u-margin-top-2`}
+                variant="contained"
+                color="primary"
+                onClick={handleCloseModalAsignRol}
+                startIcon={<CloseIcon />}
+              >
+                Cancelar
+              </Button>
+              <Button
+                className={`${classes.margin} button-gradient-primary u-margin-top-2`}
+                variant="contained"
+                color="primary"
+                type="submit"
+                onClick={handleAssignUserRol}
+                startIcon={<SaveIcon />}
+              >
+                Guardar
+              </Button>
+            </Grid>
+          </div>
+        </div>
+      </Modal>
     </>
   );
-};
-
-export default Recursos;
+}

@@ -1,6 +1,6 @@
-import React, { useState, useContext } from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import { Link } from "@reach/router";
+import React, {useContext, useState} from "react";
+import {makeStyles} from "@material-ui/core/styles";
+import {Link} from "@reach/router";
 import Drawer from "@material-ui/core/Drawer";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import AppBar from "@material-ui/core/AppBar";
@@ -18,7 +18,7 @@ import SupervisorAccountIcon from "@material-ui/icons/SupervisorAccount";
 import AllInboxIcon from "@material-ui/icons/AllInbox";
 import FolderIcon from "@material-ui/icons/Folder";
 import DescriptionIcon from "@material-ui/icons/Description";
-import { AuthContext } from "../../context/useAuth";
+import {AuthContext} from "../../context/useAuth";
 
 const drawerWidth = 240;
 const useStyles = makeStyles((theme) => ({
@@ -73,10 +73,11 @@ const NavLink = (props) => (
     }}
   />
 );
-const SideBar = ({ title }) => {
+
+export function SideBar(props) {
+  const { title } = props;
   const dataUSER = useContext(AuthContext);
-  const CURRENT_USER = localStorage.getItem("user");
-  dataUSER.username = CURRENT_USER;
+  dataUSER.username = localStorage.getItem("user");
 
   const [itemsMenu, setItemsMenu] = useState([
     { name: "Usuarios", route: "/usuarios" },
@@ -147,6 +148,4 @@ const SideBar = ({ title }) => {
       </Drawer>
     </>
   );
-};
-
-export default SideBar;
+}

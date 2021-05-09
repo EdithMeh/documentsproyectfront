@@ -1,13 +1,11 @@
 import React from "react";
-import Layout from "../../components/layout/layout";
+import {Layout} from "../../components/layout";
 
-const Home = (props) => {
+export function Home(props) {
   const { path } = props;
   return (
     <Layout namePath={path}>
       <p>WELCOME</p>
     </Layout>
   );
-};
-
-export default Home;
+}

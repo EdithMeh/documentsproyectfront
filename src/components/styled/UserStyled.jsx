@@ -18,11 +18,15 @@ export const useStyles = makeStyles((theme) => ({
     margin: "0.5em 0.5em",
   },
   container: {
+    paddingTop: 16,
+  },
+  containerTable: {
     maxHeight: 440,
   },
   buttonAdd: {
     textTransform: "capitalize",
     color: "white",
+    backgroundColor: "#2b3169",
   },
   toolbarHeader: {
     width: "100%",

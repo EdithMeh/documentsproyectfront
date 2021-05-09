@@ -44,7 +44,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Login = (props) => {
+export function Login(props) {
   const loadingDATA = useContext(LoadContext);
   const dataUSER = useContext(AuthContext);
   const [values, setValues] = useState({
@@ -176,6 +176,4 @@ const Login = (props) => {
       </Grid>
     </>
   );
-};
-
-export default Login;
+}

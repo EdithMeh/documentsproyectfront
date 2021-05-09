@@ -1,0 +1,43 @@
+:root {
+	--youtube-color: #c4302b;
+	--facebook-color: #3b5998;
+	--first-color: #1aa6b9;
+	--success-color: #06d6a0;
+	--warning-color: #ffd166;
+	--error-color: #f87171;
+	--error-form-color: #9f3a38;
+	--info-color: #58b3f3;
+	--muted-color: #a0a7ac;
+	--title-color: #2a3b47;
+	--text-color: #728286;
+	--text-primary: #71717a;
+	--text-secondary: #a1a1aa;
+	--border-color: #eff3f5;
+	--bg-first-color: #eff3f5;
+	--bg-first-color-60: rgba(239, 243, 245, 0.6);
+	--bg-second-color: #fbfbfe;
+	--bg-third-color: #fff;
+	--white-color: #ffff;
+	--gray-shaded-color: #e0e1e2;
+	--black-color: #000;
+	--gray-color: #52525b;
+	--blue-color: #33a5f8;
+	--blue-hover-color: #1176be;
+	--text-terciary: #d4d4d8;
+	--second: #fafafa;
+	--bg-card-grey: #f4f4f5;
+	--bg-error: #f8717115;
+	--text-dark: #52525b;
+	--event-card-type-acomplishment: #22c55e;
+	--event-form-icon: #9ca3af;
+	--event-form-background: #ddf8fc;
+}
+
+.dark-theme {
+	--bg-first-color: #212e36;
+	--title-color: #eff3f5;
+	--bg-second-color: #192229;
+	--bg-third-color: #212e36;
+	--text-color: #c8cdd0;
+	--border-color: #2a3b47;
+}
