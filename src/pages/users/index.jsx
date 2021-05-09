@@ -42,7 +42,7 @@ export function Users(props) {
   const { path } = props;
 
   /**
-   * Handle => Close Modal
+   * Handle => Close modal
    */
   const handleClose = () => {
     setOpen(false);
@@ -386,7 +386,7 @@ export function Users(props) {
                         key={column.id}
                         style={{ minWidth: column.minWidth }}
                       >
-                        {column.label}
+                        <strong>{column.label}</strong>
                       </TableCell>
                     ))}
                   </TableRow>

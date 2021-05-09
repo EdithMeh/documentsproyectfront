@@ -41,7 +41,7 @@ export function Roles(props) {
     const [select, setSelect] = useState(DEFAULT_STATE);
     const {path} = props;
     /**
-     * Handle => Close Modal
+     * Handle => Close modal
      */
     const handleClose = () => {
         setOpen(false);

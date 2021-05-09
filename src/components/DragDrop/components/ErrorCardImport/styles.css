@@ -1,0 +1,39 @@
+.error-card-import.container {
+	background-color: #f8717115;
+	padding-top: 16px;
+	padding-bottom: 16px;
+	margin-top: 1px;
+}
+
+.error-card-import.icon {
+	margin-left: 16px;
+	margin-right: 16px;
+	height: 28px;
+	width: 28px;
+	color: #F87171FF;
+	float: left;
+}
+
+.error-card-import.content {
+	color: #F87171FF;
+	display: flex;
+	flex-direction: column;
+}
+.error-card-import.content-title {
+	font-weight: bold;
+	font-size: 16px;
+	margin-bottom: 8px;
+}
+.error-card-import.content-description {
+	font-size: 12px;
+}
+
+.error-card-import.toggle-button {
+	margin-left: 16px;
+	margin-right: 16px;
+	height: 18px;
+	width: 18px;
+	color: #F87171FF;
+	float: right;
+	cursor: pointer;
+}

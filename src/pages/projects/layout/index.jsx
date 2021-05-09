@@ -8,6 +8,7 @@ import {STATE_OPTIONS} from "../../../helpers/selects";
 import {SimpleSelect} from "../../../components/select";
 import {BUTTON_ADD, DEFAULT_STATE} from "../../../helpers/constants";
 import {PrimaryButton} from "../../../components/primaryButton";
+import {Container} from "@material-ui/core";
 
 export function ProjectsContainer() {
     const classes = useStyles();
@@ -34,21 +35,22 @@ export function ProjectsContainer() {
     return (
         <>
             <Toolbar className={classes.toolbarHeader}>
-                <PrimaryButton onClick={add} value={BUTTON_ADD} />
-                <SimpleSelect values={STATE_OPTIONS} select={select} onChange={changeFilter} />
+                <PrimaryButton onClick={add} value={BUTTON_ADD}/>
+                <SimpleSelect values={STATE_OPTIONS} select={select} onChange={changeFilter}/>
             </Toolbar>
-            <Grid
-                container
-                spacing={4}
-                className={classes.gridContainer}
-                justify="center"
-            >
-                {projects.map((project) => (
-                    <Grid key={project.id} item xs={12} sm={6} md={4}>
-                        <SimpleCard key={project.id} value={project}/>
-                    </Grid>
-                ))}
-            </Grid>
+            <Container fixed className={classes.container}>
+                <Grid
+                    container
+                    spacing={4}
+                    justify="center"
+                >
+                    {projects.map((project) => (
+                        <Grid key={project.id} item xs={12} sm={6} md={4}>
+                            <SimpleCard key={project.id} value={project}/>
+                        </Grid>
+                    ))}
+                </Grid>
+            </Container>
         </>
     );
 }

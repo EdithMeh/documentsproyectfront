@@ -22,11 +22,11 @@ const UserModal = (props) => {
   const [blockLoader, setBlockLoader] = useState(false);
   // console.log(settingsModal, "asdasdas");
   /**
-   * Classes => Modal Clases and components Material UI
+   * Classes => modal Clases and components Material UI
    */
   const classes = useStyles();
   /**
-   * Handle => Close Modal
+   * Handle => Close modal
    */
   const handleClose = () => {
     setMsgError({
