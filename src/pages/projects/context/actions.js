@@ -1,6 +1,7 @@
 import {ActionTypes} from "./actionsTypes";
 import apiProjects from "../../../api/repositories/projects";
 import noop from "../../../helpers/noop";
+import {navigate} from "@reach/router";
 
 /**
  * Load the tasks
@@ -31,6 +32,8 @@ function addProject(dispatch, payload) {
             type: ActionTypes.PROJECT_ADD,
             payload: response.data
         });
+        console.log(response.data)
+        navigate(`/proyectos/${response.data.name}`, { state: { value: response.data } });
     });
 }
 

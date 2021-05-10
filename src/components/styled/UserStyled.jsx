@@ -35,6 +35,12 @@ export const useStyles = makeStyles((theme) => ({
     justifyContent: "space-between",
     borderRadius: "5px 5px 0 0",
   },
+  toolbarHeaderIndividual: {
+    width: "100%",
+    display: "flex",
+    background: "#9FA2B4",
+    borderRadius: "5px 5px 0 0",
+  },
   modal: {
     outline: "none",
     display: "flex",
@@ -64,4 +70,7 @@ export const useStyles = makeStyles((theme) => ({
   fieldWidth: {
     width: "100%",    
   },
+  text: {
+    margin:0,
+  }
 }));

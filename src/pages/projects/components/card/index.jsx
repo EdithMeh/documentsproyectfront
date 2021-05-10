@@ -24,8 +24,19 @@ const useStyles = makeStyles({
 });
 
 export default function SimpleCard(props) {
-    const {value} = props;
+    const {value, information} = props;
     const classes = useStyles();
+
+    function handleInfo() {
+        information(value);
+    }
+
+    function handleRepo() {
+        window.open(
+            value.repository,
+            '_blank'
+        );
+    }
 
     return (
         <Card className={classes.root}>
@@ -41,11 +52,11 @@ export default function SimpleCard(props) {
                 </Typography>
             </CardContent>
             <CardActions>
-                <Button size="small" color="primary">
-                    Information
+                <Button size="small" color="primary" onClick={handleInfo}>
+                    Información
                 </Button>
-                <Button size="small" color="primary">
-                    Got to repo
+                <Button size="small" color="primary" onClick={handleRepo}>
+                    Ir al repositorio
                 </Button>
             </CardActions>
         </Card>
