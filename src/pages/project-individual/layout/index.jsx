@@ -5,7 +5,8 @@ import {DEFAULT_STATE} from "../../../helpers/constants";
 import {navigate} from "@reach/router";
 import IconButton from "@material-ui/core/IconButton";
 import {ArrowBack} from "@material-ui/icons";
-import {Message} from "semantic-ui-react";
+import {BarStatus} from "../components/BarStatus";
+import {STATUS_DIC} from "../helpers/dictionaryStatus";
 
 export function IndividualContainer(props) {
     const {value} = props;
@@ -40,11 +41,13 @@ export function IndividualContainer(props) {
                         navigate('/proyectos')
                     }
                 >
-                    <ArrowBack fontSize='large' />
+                    <ArrowBack fontSize='large'/>
                 </IconButton>
                 <h1 className={classes.text}>{value.name}</h1>
             </Toolbar>
-            <Message color='blue'>Blue</Message>
+            <div className={classes.footer}>
+                <BarStatus value={STATUS_DIC[value.state]}/>
+            </div>
         </>
     );
 }

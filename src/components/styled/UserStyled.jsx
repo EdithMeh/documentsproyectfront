@@ -41,6 +41,11 @@ export const useStyles = makeStyles((theme) => ({
     background: "#9FA2B4",
     borderRadius: "5px 5px 0 0",
   },
+  message: {
+    width: "100%",
+    display: "flex",
+    justifyContent: "center",
+  },
   modal: {
     outline: "none",
     display: "flex",
@@ -72,5 +77,12 @@ export const useStyles = makeStyles((theme) => ({
   },
   text: {
     margin:0,
+  },
+  footer: {
+    marginTop: "1rem",
+    padding: "1rem",
+    position: "fixed",
+    bottom: 0,
+    width: "86%",
   }
 }));

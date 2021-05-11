@@ -4,7 +4,7 @@ import Grid from "@material-ui/core/Grid";
 import {useStyles} from "../../../components/styled/UserStyled";
 import SimpleCard from "../components/card";
 import {ProjectsActions, ProjectsData} from "../context/projectContext";
-import {STATE_OPTIONS} from "../../../helpers/selects";
+import {STATE_PROJECTS_OPTIONS} from "../../../helpers/selects";
 import {SimpleSelect} from "../../../components/select";
 import {BUTTON_ADD, DEFAULT_STATE} from "../../../helpers/constants";
 import {PrimaryButton} from "../../../components/primaryButton";
@@ -36,15 +36,15 @@ export function ProjectsContainer() {
         actions.addProject(value);
     }
 
-    function information(value){
-        navigate(`/proyectos/${value.name}`, { state: { value: value } });
+    function information(value) {
+        navigate(`/proyectos/${value.name}`, {state: {value: value}});
     }
 
     return (
         <>
             <Toolbar className={classes.toolbarHeader}>
                 <PrimaryButton onClick={showModal} value={BUTTON_ADD}/>
-                <SimpleSelect values={STATE_OPTIONS} select={select} onChange={changeFilter}/>
+                <SimpleSelect values={STATE_PROJECTS_OPTIONS} select={select} onChange={changeFilter}/>
             </Toolbar>
             <Container fixed className={classes.container}>
                 <Grid
