@@ -1,4 +1,4 @@
-import {getAll, getSingle, patch, post, put} from "./provider";
+import {getAll, getSingle, getSingleWithPath, patch, post, put} from "./provider";
 
 export class ApiCore {
 	constructor(options) {
@@ -14,9 +14,15 @@ export class ApiCore {
 			};
 		}
 
+		if (options.getSingleWithPath) {
+			this.getSingleWithPath = (id, path) => {
+				return getSingleWithPath(options.url, id, path);
+			};
+		}
+
 		if (options.post) {
-			this.post = (model) => {
-				return post(options.url, model);
+			this.post = (model, path="") => {
+				return post(options.url+path, model);
 			};
 		}
 

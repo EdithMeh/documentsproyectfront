@@ -49,6 +49,7 @@ export function Users(props) {
     setMsgError({
       email: "",
       name: "",
+      lastname: "",
       password: "",
       telephone: "",
       username: "",
@@ -57,6 +58,7 @@ export function Users(props) {
     setUser({
       email: "",
       name: "",
+      lastname: "",
       password: "",
       telephone: "",
       username: "",
@@ -66,6 +68,7 @@ export function Users(props) {
   const [user, setUser] = useState({
     email: "",
     name: "",
+    lastname: "",
     password: "",
     telephone: "",
     username: "",
@@ -74,6 +77,7 @@ export function Users(props) {
   const [msgError, setMsgError] = useState({
     email: "",
     name: "",
+    lastname: "",
     password: "",
     telephone: "",
     username: "",
@@ -116,6 +120,9 @@ export function Users(props) {
         break;
       case "name":
         errors.name = value === "" ? "Este campo es requerido" : "";
+        break;
+      case "lastname":
+        errors.lastname = value === "" ? "Este campo es requerido" : "";
         break;
       case "password":
         errors.password = value === "" ? "Este campo es requerido" : "";
@@ -198,7 +205,7 @@ export function Users(props) {
         ToastsStore.success("Eliminado correctamente");
       })
       .catch((error) => {
-        console.log(error, "eROROR AL ELIMINAR");
+        console.log(error, "ERROR AL ELIMINAR");
       });
   };
   const [openResource, setOpenResource] = useState(false);
@@ -232,6 +239,7 @@ export function Users(props) {
     if (
       user.email === "" ||
       user.name === "" ||
+      user.lastname === "" ||
       user.password === "" ||
       user.telephone === "" ||
       user.username === ""
@@ -262,6 +270,7 @@ export function Users(props) {
     if (
       user.email === "" ||
       user.name === "" ||
+      user.lastname === "" ||
       user.password === "" ||
       user.telephone === "" ||
       user.username === ""
@@ -275,6 +284,7 @@ export function Users(props) {
             {
               email: user.email,
               name: user.name,
+              lastname: user.lastname,
               state: user.state,
               telephone: user.telephone,
             },
@@ -366,7 +376,7 @@ export function Users(props) {
           <Button
             onClick={() => handleOpenModal(null, null, "new")}
             variant="contained"
-            className={`${classes.buttonAdd} button-gradient-primary`}
+            className={`${classes.buttonAdd}`}
             startIcon={<AddIcon />}
           >
             Adicionar Nuevo
@@ -395,8 +405,8 @@ export function Users(props) {
                   {users.map((item, i) => (
                     <TableRow hover role="checkbox" tabIndex={-1} key={i}>
                       <TableCell>{item.name}</TableCell>
-                      <TableCell>{item.name}</TableCell>
-                      <TableCell>{item.name}</TableCell>
+                      <TableCell>{item.lastname}</TableCell>
+                      <TableCell>{item.username}</TableCell>
                       <TableCell>{item.email}</TableCell>
                       <TableCell>{item.telephone}</TableCell>
                       <TableCell>
@@ -485,6 +495,7 @@ export function Users(props) {
                         <TextField
                           size="small"
                           label="Apellidos"
+                          name="lastname"
                           variant="outlined"
                           onKeyUp={handleChange}
                           onBlur={handleChange}
@@ -723,7 +734,7 @@ export function Users(props) {
         }}
       >
         <div className={classes.paper}>
-          <h2 className={classes.modalHeader}>ASIGNAR RECURSOS</h2>
+          <h2 className={classes.modalHeader}>ASIGNAR ROLES</h2>
           <div className={classes.modalBody}>
             <Grid container>
               {stateRole.map((resource, i) => (

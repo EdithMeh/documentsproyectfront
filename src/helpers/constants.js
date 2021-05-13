@@ -11,4 +11,5 @@ export const CONNECT_AND = '&';
 export const ERROR = 'error';
 export const STATUS_OK = 200;
 export const BUTTON_ADD = 'Adicionar nuevo';
+export const BUTTON_ADD_DOCUMENT = 'Adicionar documento';
 

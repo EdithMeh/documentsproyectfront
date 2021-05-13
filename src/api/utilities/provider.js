@@ -42,6 +42,23 @@ export function getSingle(resource, id) {
 }
 
 /**
+ * Sends a GET request to the specified url
+ *
+ * @param {string} resource - url of the request
+ * @param {number} id - Identifier of resource
+ * @param path
+ * @returns {object} response
+ */
+export function getSingleWithPath(resource, id, path) {
+	return axios
+		.get(`${URL_SERVER}/${resource}/${id}/${path}`, HEADER)
+		.then((data) => {
+			return data;
+		})
+		.catch(handleError);
+}
+
+/**
  * Sends a POST request to the specified url
  *
  * @param {string} resource - url of the request

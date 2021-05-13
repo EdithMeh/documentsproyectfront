@@ -99,7 +99,7 @@ export function DocumentModal(props) {
                                         <Input name='description' label='Descripción' onChange={handleChange}/>
                                         <br/>
                                         <DragAndDrop
-                                            accept='.PDF, .XLSX, .CSV'
+                                            accept='.PDF, .XLSX, .DOCX, .XD'
                                             maxLength={toBytes(5)}
                                             validations={validations}
                                             setFilesAdded={filesAdded}
