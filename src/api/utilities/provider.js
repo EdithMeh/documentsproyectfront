@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { handleError } from './response';
-import {HEADER, URL_SERVER} from "../../config/settings";
+import {HEADER, HEADER_BLOB, URL_SERVER} from "../../config/settings";
 import {CONNECT_PARAMS} from "../../helpers/constants";
 import {objectToQueryString} from "../../helpers/apiHelpers";
 
@@ -32,8 +32,26 @@ export function getAll(resource, params) {
  * @returns {object} response
  */
 export function getSingle(resource, id) {
+	//TODO: fix this unless blob to future requests
 	return axios
-		.get(`${URL_SERVER}/${resource}/${id}`, HEADER)
+		.get(`${URL_SERVER}/${resource}/${id}`, {...HEADER, responseType: 'blob'})
+		.then((data) => {
+			return data;
+		})
+		.catch(handleError);
+}
+
+/**
+ * Sends a GET request to the specified url
+ *
+ * @param {string} resource - url of the request
+ * @param {number} id - Identifier of resource
+ * @param path
+ * @returns {object} response
+ */
+export function getSingleWithPath(resource, id, path) {
+	return axios
+		.get(`${URL_SERVER}/${resource}/${id}/${path}`, HEADER)
 		.then((data) => {
 			return data;
 		})

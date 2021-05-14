@@ -317,7 +317,7 @@ export function Roles(props) {
                     <Button
                         onClick={() => handleOpenModal(null, null, "new")}
                         variant="contained"
-                        className={`${classes.buttonAdd} button-gradient-primary`}
+                        className={`${classes.buttonAdd}`}
                         startIcon={<AddIcon/>}
                     >
                         Adicionar Nuevo

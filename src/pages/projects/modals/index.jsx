@@ -1,41 +1,34 @@
 import React, {useEffect, useState} from "react";
 import Backdrop from "@material-ui/core/Backdrop";
 import Grid from "@material-ui/core/Grid";
-import FormControl from "@material-ui/core/FormControl";
 import Button from "@material-ui/core/Button";
 import CloseIcon from "@material-ui/icons/Close";
 import SaveIcon from "@material-ui/icons/Save";
 import Modal from "@material-ui/core/Modal";
 import {useStyles} from "../../../components/styled/UserStyled";
-import DragAndDrop from "../../../components/DragDrop";
 import {Input} from "../../../components/input";
-import {toBytes} from "../../../helpers/validators";
 
 /**
  * Header for tables
  *
  * @returns {object} JSX.Element page tags
  */
-export function DocumentModal(props) {
-    const {
-        file,
-        filesAdded,
-        validations, submit, open, setOpen, tittle, document
-    } = props;
-    const [documentEdit, setDocument] = useState({});
+export function ProjectModal(props) {
+    const {submit, open, setOpen, tittle, project} = props;
+    const [projectEdit, setProject] = useState({});
     const classes = useStyles();
     const [error, setError] = useState(true);
 
     useEffect(() => {
-        let values = Object.values(documentEdit).filter(function (data) {
+        let values = Object.values(projectEdit).filter(function (data) {
             return data !== undefined && data !== '';
         });
-        if (documentEdit !== undefined && values.length === 3 && file) {
+        if (projectEdit !== undefined && values.length === 4) {
             setError(false);
         } else {
             setError(true);
         }
-    }, [documentEdit, file]);
+    }, [projectEdit]);
 
     /**
      * Handle event submit edit a task
@@ -44,20 +37,20 @@ export function DocumentModal(props) {
      */
     function handleSubmit(e) {
         e.preventDefault();
-        if (documentEdit !== undefined && Object.keys(documentEdit).length !== 0) {
-            submit(documentEdit);
+        if (projectEdit !== undefined && Object.keys(projectEdit).length !== 0) {
+            submit(projectEdit);
             close();
         }
     }
 
     function close() {
-        setDocument({});
+        setProject({});
         setError(true);
         setOpen();
     }
 
     function handleChange(name, value) {
-        setDocument((prevState) => ({
+        setProject((prevState) => ({
             ...prevState,
             [name]: value,
         }));
@@ -91,21 +84,14 @@ export function DocumentModal(props) {
                                     <Input name='name' label='Nombre' onChange={handleChange}/>
                                 </Grid>
                                 <Grid item xs={6}>
-                                    <Input name='classification' label='Clasificación' onChange={handleChange}/>
+                                    <Input name='description' label='Descripción' onChange={handleChange}/>
                                 </Grid>
                                 <br/><br/><br/>
-                                <Grid item xs={12}>
-                                    <FormControl fullWidth>
-                                        <Input name='description' label='Descripción' onChange={handleChange}/>
-                                        <br/>
-                                        <DragAndDrop
-                                            accept='.PDF, .XLSX, .DOCX, .XD'
-                                            maxLength={toBytes(5)}
-                                            validations={validations}
-                                            setFilesAdded={filesAdded}
-                                            file={file}
-                                        />
-                                    </FormControl>
+                                <Grid item xs={6}>
+                                    <Input name='repository' label='Repositorio' onChange={handleChange}/>
+                                </Grid>
+                                <Grid item xs={6}>
+                                    <Input name='type' label='Tipo' onChange={handleChange}/>
                                 </Grid>
                                 <Grid item xs={12} className={classes.alignCenter}>
                                     <Button

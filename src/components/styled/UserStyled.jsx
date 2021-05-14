@@ -1,4 +1,5 @@
 import { makeStyles } from "@material-ui/core/styles";
+import {blue, deepPurple} from "@material-ui/core/colors";
 export const useStyles = makeStyles((theme) => ({
   formControl: {
     margin: theme.spacing(1),
@@ -35,6 +36,31 @@ export const useStyles = makeStyles((theme) => ({
     justifyContent: "space-between",
     borderRadius: "5px 5px 0 0",
   },
+  toolbarHeaderIndividual: {
+    width: "100%",
+    display: "flex",
+    background: "#9FA2B4",
+    borderRadius: "5px 5px 0 0",
+  },
+  message: {
+    width: "100%",
+    display: "flex",
+    justifyContent: "center",
+  },
+  members: {
+    display: "flex",
+    '& > *': {
+      margin: theme.spacing(0.3),
+    },
+  },
+  blue: {
+    color: theme.palette.getContrastText(blue[900]),
+    backgroundColor: blue[900],
+  },
+  mainColorBurble: {
+    color: theme.palette.getContrastText("#2b3169") ,
+    backgroundColor: "#2b3169",
+  },
   modal: {
     outline: "none",
     display: "flex",
@@ -42,6 +68,7 @@ export const useStyles = makeStyles((theme) => ({
     justifyContent: "center",
     width: "500px",
     margin: "auto",
+    overflow: "visible",
   },
   modalHeader: {
     color: "white",
@@ -53,7 +80,7 @@ export const useStyles = makeStyles((theme) => ({
   },
   paper: {
     outline: "none",
-    overflow: "hidden",
+    overflow: "visible",
     borderRadius: "10px",
     backgroundColor: theme.palette.background.paper,
   },
@@ -64,4 +91,17 @@ export const useStyles = makeStyles((theme) => ({
   fieldWidth: {
     width: "100%",    
   },
+  commentArea: {
+    width: "100%",
+  },
+  text: {
+    margin:0,
+  },
+  footer: {
+    marginTop: "1rem",
+    padding: "1rem",
+    position: "fixed",
+    bottom: 0,
+    width: "86%",
+  }
 }));

@@ -4,7 +4,8 @@ const url = 'documents';
 
 const apiDocuments = new ApiCore({
     getAll: true,
-    getSingle: false,
+    getSingle: true,
+    getSingleWithPath: false,
     post: true,
     put: true,
     patch: false,

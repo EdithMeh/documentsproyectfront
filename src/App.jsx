@@ -11,6 +11,7 @@ import {Documents} from "./pages/documents";
 import {Projects} from "./pages/projects";
 import {Home} from "./pages/dashboard";
 import {Login} from "./pages/auth";
+import {ProjectIndividual} from "./pages/project-individual";
 
 export function App() {
     const [currentUser, setCurrentUser] = useState([]);
@@ -40,6 +41,7 @@ export function App() {
                 <Resources path="recursos"/>
                 <Projects path="proyectos"/>
                 <Documents path="documentos"/>
+                <ProjectIndividual path="proyectos/:name"/>
             </Router>
         </AuthContext.Provider>
     );

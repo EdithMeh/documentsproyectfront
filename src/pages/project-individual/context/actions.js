@@ -1,7 +1,6 @@
 import {ActionTypes} from "./actionsTypes";
 import apiProjects from "../../../api/repositories/projects";
 import noop from "../../../helpers/noop";
-import {navigate} from "@reach/router";
 
 /**
  * Load the tasks
@@ -9,31 +8,27 @@ import {navigate} from "@reach/router";
  * @param {object} dispatch - dispatch of context
  * @param {object} payload - data
  */
-function onLoad(dispatch, payload) {
+function onMembersLoad(dispatch, payload) {
     dispatch({type: ActionTypes.LOADING_CHANGE, payload: true});
-    apiProjects.getAll({state: payload}).then((response) => {
+    apiProjects.getSingleWithPath(payload, "").then((response) => {
         dispatch({
-            type: ActionTypes.PROJECT_ONLOAD,
+            type: ActionTypes.PROJECT_INDIVIDUAL_MEMBERS,
             payload: response.data
         });
     });
 }
 
 /**
- * add new project
+ * Load the tasks
  *
  * @param {object} dispatch - dispatch of context
  * @param {object} payload - data
  */
-function addProject(dispatch, payload) {
+function addMember(dispatch, payload) {
+    const {id, member} = payload;
     dispatch({type: ActionTypes.LOADING_CHANGE, payload: true});
-    apiProjects.post(payload).then((response) => {
-        dispatch({
-            type: ActionTypes.PROJECT_ADD,
-            payload: response.data
-        });
-        console.log(response.data)
-        navigate(`/proyectos/${response.data.name}`, { state: { value: response.data } });
+    apiProjects.post(member, "/"+id).then((response) => {
+        onMembersLoad(dispatch, id);
     });
 }
 
@@ -46,7 +41,7 @@ function addProject(dispatch, payload) {
  */
 export default function ActionFactory(dispatch = noop) {
     return {
-        onLoad: (payload) => onLoad(dispatch, payload),
-        addProject: (payload) => addProject(dispatch, payload),
+        onMembersLoad: (payload) => onMembersLoad(dispatch, payload),
+        addMember: (payload) => addMember(dispatch, payload),
     };
 }
